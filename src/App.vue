@@ -11,6 +11,12 @@
             <v-app-bar-title  >Tutorial</v-app-bar-title>
             <v-spacer></v-spacer>
             <v-toolbar-items>
+                              <v-btn 
+                    variant="text"
+                    @click="goAlbums"
+                    >
+                  Album List
+                </v-btn>
                 <v-btn 
                     variant="text"
                     @click="goList"
@@ -47,6 +53,9 @@ export default {
     },
     goList() {
       this.$router.push({ name: 'tutorials' });
+    },
+      goAlbums() {
+      this.$router.push({ name: 'albums' });
     }
   },
 
