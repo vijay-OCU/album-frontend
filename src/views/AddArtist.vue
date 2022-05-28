@@ -1,19 +1,23 @@
 <template>
-    <h1>Tutorial Add</h1>
+    <h1>Artist Add</h1>
     <h4>{{ message }}</h4>
     <v-form>
        <v-text-field
-            label="Title"
-            v-model="tutorial.title"
+            label="Name"
+            v-model="artist.name"
         />
         <v-text-field
-            label="Description"
-            v-model="tutorial.description"
+            label="Gender"
+            v-model="artist.gender"
+        />
+        <v-text-field
+            label="Location"
+            v-model="artist.location"
         />
         <v-row justify="center">
             <v-col col="2"> </v-col>
             <v-col col="2">
-                <v-btn color="success" @click="saveTutorial()"
+                <v-btn color="success" @click="saveArtist()"
                     >Save</v-btn
                 >
             </v-col>
@@ -24,39 +28,41 @@
         </v-row>
     </v-form>
 </template>
+
 <script>
-import TutorialDataService from "../services/TutorialDataService";
+import ArtistDataService from "../services/ArtistDataService";
 export default {
-  name: "add-tutorial",
+  name: "add-artist",
   data() {
     return {
-      tutorial: {
+      artist: {
         id: null,
-        title: "",
-        description: "",
-        published: false
+        name: "",
+        gender: "",
+        location: ""
       },
       message: "Enter data and click save"
     };
   },
   methods: {
-    saveTutorial() {
+    saveArtist() {
       var data = {
-        title: this.tutorial.title,
-        description: this.tutorial.description
+        name: this.artist.name,
+        gender: this.artist.gender,
+        location: this.artist.location
       };
-      TutorialDataService.create(data)
+      ArtistDataService.create(data)
         .then(response => {
-          this.tutorial.id = response.data.id;
+          this.artist.id = response.data.id;
           console.log("add "+response.data);
-          this.$router.push({ name: 'tutorials' });
+          this.$router.push({ name: 'artists' });
         })
         .catch(e => {
           this.message = e.response.data.message;
         });
     },
     cancel(){
-        this.$router.push({ name: 'tutorials' });
+        this.$router.push({ name: 'artists' });
     }
   }
 }
