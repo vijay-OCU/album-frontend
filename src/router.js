@@ -1,8 +1,8 @@
 import { createWebHistory, createRouter } from "vue-router";
 const routes =  [
   {
-    path: "/",
-    alias: "/albums",
+    path: "/albums",
+    alias: "/",
     name: "albums",
     component: () => import("./views/AlbumsList.vue"),
     props: true
@@ -19,7 +19,7 @@ const routes =  [
     component: () => import("./views/AddAlbum.vue")
   },
   {
-    path: "/view",
+    path: "/view/:id",
     name: "view",
     component: () => import("./views/ViewAlbum.vue"),
     props: true
@@ -37,8 +37,7 @@ const routes =  [
     props: true
   },
   {
-    path: "/",
-    alias: "/artists",
+    path: "/artists",
     name: "artists",
     component: () => import("./views/ArtistsList.vue"),
     props: true

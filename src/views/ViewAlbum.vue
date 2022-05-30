@@ -13,7 +13,7 @@
             <span class="text-h6">Title</span>
         </v-col>
         <v-col  cols="8"
-              sm="4">
+              sm="2">
             <span class="text-h6">Length</span>
         </v-col>
         <v-col  cols="8"
@@ -55,13 +55,7 @@ export default {
   },
   methods: {
     retrieveTracks() {
-      TrackDataService.getAllTracks(this.id)
-            .then(response=> {
-              this.tracks = response.data})
-            .catch(e => {
-                this.message = e.response.data.message;
-              });
-      /*AlbumDataService.get(this.id)
+      AlbumDataService.get(this.id)
         .then(response => {
           this.album= response.data;
           TrackDataService.getAllTracks(this.id)
@@ -73,10 +67,10 @@ export default {
             })
         .catch(e => {
           this.message = e.response.data.message;
-        });*/
+        });
     },
-     goEditAlbum() {
-      this.$router.push({ name: 'edit', params: { id: this.id } });
+    goEditAlbum() {
+      this.$router.push({ name: 'editAlbum', params: { id: this.id } });
     },
     goEditTrack(track) {
       this.$router.push({ name: 'editTrack', params: { albumId: this.id,trackId: track.id} });

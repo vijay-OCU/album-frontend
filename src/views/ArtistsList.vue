@@ -17,7 +17,7 @@
         </v-col> 
         <v-col  cols="12" sm="1">
           <v-btn color = "success"
-            @click="searchTitle"
+            @click="searchName"
           >
             Search
           </v-btn>
@@ -124,8 +124,8 @@ export default {
         });
     },
     
-    searchTitle() {
-      ArtistDataService.findByTitle(this.title)
+    searchName() {
+      ArtistDataService.findByName(this.title)
         .then(response => {
           this.artists = response.data;
           this.setActiveArtist(null);

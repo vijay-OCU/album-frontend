@@ -19,7 +19,7 @@ class ArtistDataService {
     return http.delete(`/artists`);
   }
   findByName(name) {
-    return http.get(`/artists?title=${name}`);
+    return http.get(`/artists?name=${name}`);
   }
 }
 export default new ArtistDataService();

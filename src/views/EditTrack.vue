@@ -1,21 +1,21 @@
 <template>
-    <h1>Edit Lesson</h1>
+    <h1>Edit Track</h1>
     <h4>{{ message }}</h4>
-    <h4>Tutorial : {{tutorialId}} Lesson : {{lessonId}}</h4>
+    <h4>Album : {{albumId}} Track : {{trackId}}</h4>
 
     <v-form>
        <v-text-field
             label="Title"
-            v-model="lesson.title"
+            v-model="track.title"
         />
         <v-text-field
-            label="Description"
-            v-model="lesson.description"
+            label="Length"
+            v-model="track.length"
         />
         <v-row justify="center">
             <v-col col="2"> </v-col>
             <v-col col="2">
-                <v-btn color="success" @click="saveLesson()"
+                <v-btn color="success" @click="saveTrack()"
                     >Save</v-btn
                 >
             </v-col>
@@ -27,49 +27,48 @@
     </v-form>
 </template>
 <script>
-import LessonDataService from "../services/LessonDataService";
+import TrackDataService from "../services/TrackDataService";
 export default {
-  name: "edit-lesson",
-  props: {tutorialId : String,lessonId:String},
+  name: "edit-track",
+  props: {albumId : String,trackId:String},
   data() {
     return {
-      lesson: Object,
+      track: Object,
       message: "Enter data and click save"
     };
   },
   methods: {
-    retrieveLesson() {
-      LessonDataService.getLesson(this.tutorialId,this.lessonId)
+    retrieveTrack() {
+      TrackDataService.getTrack(this.albumId,this.trackId)
         .then(response => {
-          this.lesson= response.data;
+          this.track= response.data;
         })
         .catch(e => {
           this.message = e.response.data.message;
         });
 
     },
-    saveLesson() {
+    saveTrack() {
       var data = {
-        title: this.lesson.title,
-        description: this.lesson.description,
-        tutorialId : this.lesson.tutorialId
+        title: this.track.title,
+        length: this.track.length,
+        albumId : this.albumId
       };
-      LessonDataService.updateLesson(this.lesson.tutorialId,this.lesson.id, data)
+      TrackDataService.updateTrack(this.albumId,this.track.id, data)
         .then(response => {
-          this.lesson.id = response.data.id;
-        
-         this.$router.push({ name: 'view' , params: { id: this.lesson.tutorialId }} );
+          this.track.id = response.data.id;       
+          this.$router.push({ name: 'view' , params: { id: this.albumId }} );
         })
         .catch(e => {
           this.message = e.response.data.message;
         });
     },
     cancel(){
-        this.$router.push({ name: 'view' , params: { id: this.lesson.tutorialId }} );
+        this.$router.push({ name: 'view' , params: { id: this.albumId }} );
     }
   },
     mounted() {
-      this.retrieveLesson();
+      this.retrieveTrack();
   }
 }
 

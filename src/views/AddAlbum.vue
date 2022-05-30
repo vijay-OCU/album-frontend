@@ -14,6 +14,12 @@
             label="Genre"
             v-model="album.genre"
         />
+        <v-select
+          :items="items" 
+          label="Artist"
+          solo
+          v-model="album.artist"
+        ></v-select>
         <v-row justify="center">
             <v-col col="2"> </v-col>
             <v-col col="2">
@@ -30,13 +36,15 @@
 </template>
 <script>
 import AlbumDataService from "../services/AlbumDataService";
+import ArtistDataService from "../services/ArtistDataService";
 export default {
   name: "add-album",
   data() {
     return {
+      items: ["apple", "orange", "pear"],
       album: {
         id: null,
-        title: "",
+        title: "",  
         language: "",
         genre: ""
       },
@@ -44,11 +52,21 @@ export default {
     };
   },
   methods: {
+    retrieveArtists() {
+      ArtistDataService.getAll()
+        .then(response => {
+          this.artists = response.data.name;
+        })
+        .catch(e => {
+          this.message = e.response.data.message;
+        });
+    },
     saveAlbum() {
       var data = {
         title: this.album.title,
         language: this.album.language,
-        genre: this.album.genre
+        genre: this.album.artist,
+        artist: this.album.artist
       };
       AlbumDataService.create(data)
         .then(response => {
