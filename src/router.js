@@ -8,7 +8,7 @@ const routes =  [
     props: true
   },
   {
-    path: "/edit/:id",
+    path: "/albums/:id/edit",
     name: "editAlbum",
     component: () => import("./views/EditAlbum.vue"),
     props: true
@@ -19,19 +19,19 @@ const routes =  [
     component: () => import("./views/AddAlbum.vue")
   },
   {
-    path: "/view/:id",
+    path: "/albums/:id/tracks",
     name: "view",
     component: () => import("./views/ViewAlbum.vue"),
     props: true
   },
   {
-    path: "/addTrack",
+    path: "/albums/:albumId/addTrack",
     name: "addTrack",
     component: () => import("./views/AddTrack.vue"),
     props: true
   },
   {
-    path: "/editTrack",
+    path: "/albums/:albumId/tracks/:trackId/editTrack/",
     name: "editTrack",
     component: () => import("./views/EditTrack.vue"),
     props: true
@@ -46,6 +46,12 @@ const routes =  [
     path: "/addArtist",
     name: "addArtist",
     component: () => import("./views/AddArtist.vue")
+  },
+  {
+    path: "/artists/:id/edit",
+    name: "editArtist",
+    component: () => import("./views/EditArtist.vue"),
+    props: true
   }
 ];
 const router = createRouter({

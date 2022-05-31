@@ -15,7 +15,9 @@
             v-model="album.genre"
         />
         <v-select
-          :items="items" 
+          :items="artists"
+          item-text='name'
+          item-value='id'
           label="Artist"
           solo
           v-model="album.artist"
@@ -41,6 +43,7 @@ export default {
   name: "add-album",
   data() {
     return {
+      //artists: this.retrieveArtists.response.data,
       items: ["apple", "orange", "pear"],
       album: {
         id: null,
@@ -55,7 +58,7 @@ export default {
     retrieveArtists() {
       ArtistDataService.getAll()
         .then(response => {
-          this.artists = response.data.name;
+          this.artists = response.data;
         })
         .catch(e => {
           this.message = e.response.data.message;
@@ -65,8 +68,8 @@ export default {
       var data = {
         title: this.album.title,
         language: this.album.language,
-        genre: this.album.artist,
-        artist: this.album.artist
+        genre: this.album.genre,
+        //artist: this.album.artist
       };
       AlbumDataService.create(data)
         .then(response => {
@@ -81,8 +84,8 @@ export default {
     cancel(){
         this.$router.push({ name: 'albums' });
     }
-  }
-}
+  } 
+} 
 
 </script>
 <style>

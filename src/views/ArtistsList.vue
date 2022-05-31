@@ -60,6 +60,7 @@
 <script>
 import ArtistDataService from "../services/ArtistDataService";
 import ArtistDisplay from '@/components/ArtistDisplay.vue';
+import AlbumDataService from "../services/AlbumDataService";
 export default {
   name: "artists-list",
   data() {
@@ -81,13 +82,9 @@ export default {
     goEdit(artist) {
       this.$router.push({ name: 'editArtist', params: { id: artist.id } });
     },
-    goView(artist) {
-      this.$router.push({ name: 'view', params: { id: artist.id } });
-    },
     goDelete(artist) {
-      ArtistDataService.delete(artist.id)
-        .then( () => {
-    
+         ArtistDataService.delete(artist.id)
+        .then(response => {    
           this.retrieveArtists()
         })
         .catch(e => {
@@ -134,11 +131,20 @@ export default {
         .catch(e => {
           this.message = e.response.data.message;
         });
+    },
+    disableArtistAlbum() {
+      const mapArtist = this.AlbumDataService.getAll().response.data;
+      const mapAlbum = ArtistDataService.getAll().response.data;
+      if(mapAlbum && mapArtist == !null){
+        this.mapArtist.get('artistId')==this.mapAlbum.get('id');
+      }
     }
   },
   mounted() {
     this.retrieveArtists();
   }
+
+
 };
 </script>
 <style>
