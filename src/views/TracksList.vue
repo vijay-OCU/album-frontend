@@ -1,6 +1,6 @@
 <template>
 
-    <h1>Tutorial List</h1>
+    <h1>Track List</h1>
     <h4>{{ message }}</h4>
   
       <v-row >
@@ -24,7 +24,7 @@
         </v-col>
         <v-col  cols="9"
               sm="4">
-            <span class="text-h6">Description</span>
+            <span class="text-h6">Duration</span>
         </v-col>
         <v-col  cols="9"
               sm="1">
@@ -39,57 +39,57 @@
             <span class="text-h6">Delete</span>
         </v-col>
       </v-row>
-      <TutorialDisplay
-        v-for="tutorial in tutorials"
-        :key="tutorial.id"
-        :tutorial="tutorial"
-        @deleteTutorial="goDelete(tutorial)"
-        @updateTutorial="goEdit(tutorial)"
-        @viewTutorial="goView(tutorial)"
+      <TrackDisplay
+        v-for="track in albums"
+        :key="track.id"
+        :track="track"
+        @deleteTrack="goDelete(track)"
+        @updateTrack="goEdit(track)"
+        @viewTrack="goView(track)"
     />
  
-  <v-btn  @click="removeAllTutorials">
+  <v-btn  @click="removeAllTracks">
     Remove All
   </v-btn>
 </template>
 <script>
-import TutorialDataService from "../services/TutorialDataService";
-import TutorialDisplay from '@/components/TutorialDisplay.vue';
+import TrackDataService from "../services/TrackDataService";
+import TrackDisplay from '@/components/TrackDisplay.vue';
 export default {
-  name: "tutorials-list",
+  name: "albums-list",
   data() {
     return {
-      tutorials: [],
-      currentTutorial: null,
+      albums: [],
+      currentTrack: null,
       currentIndex: -1,
       title: "",
-      message : "Search, Edit or Delete Tutorials"
+      message : "Search, Edit or Delete Tracks"
     };
   },
   components: {
-        TutorialDisplay
+        TrackDisplay
     },
   methods: {
-    goEdit(tutorial) {
-      this.$router.push({ name: 'edit', params: { id: tutorial.id } });
+    goEdit(track) {
+      this.$router.push({ name: 'edit', params: { id: track.id } });
     },
-    goView(tutorial) {
-      this.$router.push({ name: 'view', params: { id: tutorial.id } });
+    goView(track) {
+      this.$router.push({ name: 'view', params: { id: track.id } });
     },
-    goDelete(tutorial) {
-      TutorialDataService.delete(tutorial.id)
+    goDelete(track) {
+      TrackDataService.delete(track.id)
         .then( () => {
     
-          this.retrieveTutorials()
+          this.retrieveTracks()
         })
         .catch(e => {
           this.message = e.response.data.message;
         });
     },
-    retrieveTutorials() {
-      TutorialDataService.getAll()
+    retrieveTracks() {
+      TrackDataService.getAll()
         .then(response => {
-          this.tutorials = response.data;
+          this.albums = response.data;
           
         })
         .catch(e => {
@@ -97,16 +97,16 @@ export default {
         });
     },
     refreshList() {
-      this.retrieveTutorials();
-      this.currentTutorial = null;
+      this.retrieveTracks();
+      this.currentTrack = null;
       this.currentIndex = -1;
     },
-    setActiveTutorial(tutorial, index) {
-      this.currentTutorial = tutorial;
-      this.currentIndex = tutorial ? index : -1;
+    setActiveTrack(track, index) {
+      this.currentTrack = track;
+      this.currentIndex = track ? index : -1;
     },
-    removeAllTutorials() {
-      TutorialDataService.deleteAll()
+    removeAllTracks() {
+      TrackDataService.deleteAll()
         .then(response => {
           console.log(response.data);
           this.refreshList();
@@ -117,10 +117,10 @@ export default {
     },
     
     searchTitle() {
-      TutorialDataService.findByTitle(this.title)
+      TrackDataService.findByTitle(this.title)
         .then(response => {
-          this.tutorials = response.data;
-          this.setActiveTutorial(null);
+          this.albums = response.data;
+          this.setActiveTrack(null);
           
         })
         .catch(e => {
@@ -129,7 +129,7 @@ export default {
     }
   },
   mounted() {
-    this.retrieveTutorials();
+    this.retrieveTracks();
   }
 };
 </script>

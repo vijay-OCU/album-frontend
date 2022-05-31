@@ -1,43 +1,33 @@
 import { createWebHistory, createRouter } from "vue-router";
 const routes =  [
+  
+  
+  
+ 
   {
-    path: "/",
-    alias: "/tutorials",
-    name: "tutorials",
-    component: () => import("./views/TutorialsList.vue")
-  },
-  {
-    path: "/edit/:id",
-    name: "edit",
-    component: () => import("./views/EditTutorial.vue"),
-    props: true
-  },
-  {
-    path: "/add",
-    name: "add",
-    component: () => import("./views/AddTutorial.vue")
-  },
-  {
-    path: "/view",
+    path: "/albums/:id/tracks",
     name: "view",
-    component: () => import("./views/ViewTutorial.vue"),
+    component: () => import("./views/ViewTrack.vue"),
     props: true
   },
   {
-    path: "/addLesson",
-    name: "addLesson",
-    component: () => import("./views/AddLesson.vue"),
+    path: "/albums/:albumId/addTrack",
+    name: "addTrack",
+    component: () => import("./views/AddTrack.vue"),
     props: true
   },
   {
-    path: "/editLesson",
-    name: "editLesson",
-    component: () => import("./views/EditLesson.vue"),
+    path: "/albums/:albumId/tracks/:trackId/editTrack/",
+    name: "editTrack",
+    component: () => import("./views/EditTrack.vue"),
     props: true
-  }
+  },
+  
+  
+  
 ];
 const router = createRouter({
-  base: process.env.NODE_ENV === 'development' ? '/' : '/tutorial-frontend-1/',
+  base: process.env.NODE_ENV === 'development' ? '/' : '/album-frontend-1/',
   history: createWebHistory(process.env.BASE_URL),
   routes,
 });
