@@ -8,20 +8,20 @@
                 max-width="40"
                 contain
             ></v-img>
-            <v-app-bar-title  >Tutorial</v-app-bar-title>
+            <v-app-bar-title>Albums</v-app-bar-title>
             <v-spacer></v-spacer>
             <v-toolbar-items>
                 <v-btn 
                     variant="text"
-                    @click="goList"
+                    @click="goAlbums"
                     >
-                  List
+                  Albums
                 </v-btn>
                 <v-btn 
                     variant="text"
-                    @click="goAdd"
+                    @click="goArtists"
                     >
-                  Add
+                  Artists
                 </v-btn>
             </v-toolbar-items>
       </v-app-bar>
@@ -42,14 +42,13 @@ export default {
     logo,
   }),
   methods: {
-    goAdd() {
-      this.$router.push({ name: 'add' });
+    goAlbums() {
+      this.$router.push({ name: 'albums' });
     },
-    goList() {
-      this.$router.push({ name: 'tutorials' });
+    goArtists() {
+      this.$router.push({ name: 'artists' });
     }
   },
 
 }
 </script>
-

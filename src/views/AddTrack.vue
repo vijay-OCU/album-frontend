@@ -1,22 +1,21 @@
 <template>
-    <h1>Add Lesson</h1>
+    <h1>Add Track</h1>
     <h4>{{ message }}</h4>
-    <h4>Tutorial : {{tutorialId}}</h4>
+    <h4>Album : {{albumId}}</h4>
     <v-form>
        <v-text-field
             label="Title"
-            v-model="lesson.title"
+            v-model="track.title"
         />
         <v-text-field
-            label="Description"
-            v-model="lesson.description"
+            label="Length"
+            v-model="track.length"
         />
         <v-row justify="center">
             <v-col col="2"> </v-col>
             <v-col col="2">
-                <v-btn color="success" @click="saveLesson()"
-                    >Save</v-btn
-                >
+                <v-btn color="success" @click="saveTrack()"
+                    >Save</v-btn>
             </v-col>
             <v-col col="2">
                 <v-btn color="info" @click="cancel()">Cancel</v-btn>
@@ -26,13 +25,13 @@
     </v-form>
 </template>
 <script>
-import LessonDataService from "../services/LessonDataService";
+import TrackDataService from "../services/TrackDataService";
 export default {
-  name: "add-lesson",
-  props: ['tutorialId'],
+  name: "add-track",
+  props: ['albumId'],
   data() {
     return {
-      lesson: {
+      track: {
         id: null,
         title: "",
         description: "",
@@ -42,24 +41,23 @@ export default {
     };
   },
   methods: {
-    saveLesson() {
+    saveTrack() {
       var data = {
-        title: this.lesson.title,
-        description: this.lesson.description,
-        tutorialId : this.tutorialId
+        title: this.track.title,
+        length: this.track.length
       };
-      LessonDataService.createLesson(this.tutorialId, data)
+      TrackDataService.createTrack(this.albumId, data)
         .then(response => {
-          this.lesson.id = response.data.id;
+          this.track.id = response.data.id;
         
-          this.$router.push({ name: 'view' , params: { id: this.tutorialId }} );
+          this.$router.push({ name: 'view' , params: { id: this.albumId }} );
         })
         .catch(e => {
           this.message = e.response.data.message;
         });
     },
     cancel(){
-        this.$router.push({ name: 'view' , params: { id: this.tutorialId }} );
+        this.$router.push({ name: 'view' , params: { id: this.albumId }} );
     }
   }
 }
