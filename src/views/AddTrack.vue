@@ -1,21 +1,21 @@
 <template>
-    <h1>Track Add</h1>
+    <h1>Add Track</h1>
     <h4>{{ message }}</h4>
+    <h4>Album : {{albumId}}</h4>
     <v-form>
        <v-text-field
             label="Title"
-            v-model="Track.title"
+            v-model="track.title"
         />
         <v-text-field
-            label="Duration"
-            v-model="Track.duration"
+            label="Length"
+            v-model="track.length"
         />
         <v-row justify="center">
             <v-col col="2"> </v-col>
             <v-col col="2">
                 <v-btn color="success" @click="saveTrack()"
-                    >Save</v-btn
-                >
+                    >Save</v-btn>
             </v-col>
             <v-col col="2">
                 <v-btn color="info" @click="cancel()">Cancel</v-btn>
@@ -28,13 +28,14 @@
 import TrackDataService from "../services/TrackDataService";
 export default {
   name: "add-track",
+  props: ['albumId'],
   data() {
     return {
-      Track: {
+      track: {
         id: null,
         title: "",
-        duration: "",
-       
+        description: "",
+        published: false
       },
       message: "Enter data and click save"
     };
@@ -42,21 +43,21 @@ export default {
   methods: {
     saveTrack() {
       var data = {
-        title: this.Track.title,
-        duration: this.Track.duration
+        title: this.track.title,
+        length: this.track.length
       };
-      TrackDataService.create(data)
+      TrackDataService.createTrack(this.albumId, data)
         .then(response => {
-          this.Track.id = response.data.id;
-          console.log("add "+response.data);
-          this.$router.push({ name: 'tracks' });
+          this.track.id = response.data.id;
+        
+          this.$router.push({ name: 'view' , params: { id: this.albumId }} );
         })
         .catch(e => {
           this.message = e.response.data.message;
         });
     },
     cancel(){
-        this.$router.push({ name: 'view' });
+        this.$router.push({ name: 'view' , params: { id: this.albumId }} );
     }
   }
 }

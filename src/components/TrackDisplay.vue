@@ -5,8 +5,8 @@
       <span >{{ track.title }}</span>
   </v-col>
   <v-col  cols="8"
-        sm="4">
-      <span> {{ track.duration }}</span>
+        sm="2">
+      <span> {{ track.length }}</span>
   </v-col>
   <v-col  cols="8"
         sm="1">

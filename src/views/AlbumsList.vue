@@ -4,41 +4,47 @@
     <h4>{{ message }}</h4>
   
       <v-row >
-        <v-col  cols="12"
-        sm="2">
+        <v-col  cols="12" sm="2">
+          <v-btn color = "success"
+            @click="goAdd"
+          >
+            Add
+          </v-btn>
+        </v-col>   
+        <v-col col="12" sm="8">
+            <v-text-field density="compact" clearable
+              v-model="title"/>
+        </v-col> 
+        <v-col  cols="12" sm="1">
           <v-btn color = "success"
             @click="searchTitle"
           >
             Search
           </v-btn>
         </v-col>
-        <v-col col="12" sm="10">
-            <v-text-field density="compact" clearable
-              v-model="title"/>
-        </v-col> 
       </v-row>
       <v-row>
-        <v-col  cols="9"
+        <v-col  cols="12"
               sm="2">
             <span class="text-h6">Title</span>
         </v-col>
-        <v-col  cols="3"
+        <v-col  cols="12"
               sm="2">
             <span class="text-h6">Language</span>
         </v-col>
-                <v-col  cols="3"
+        <v-col  cols="12"
               sm="2">
             <span class="text-h6">Genre</span>
         </v-col>
-        <v-col  cols="9"
+        <v-col  cols="12"
               sm="1">
             <span class="text-h6">Edit</span>
         </v-col>
-        <v-col  cols="9"
+        <v-col  cols="12"
               sm="1">
             <span class="text-h6">View</span>
         </v-col>
-        <v-col  cols="9"
+        <v-col  cols="12"
               sm="1">
             <span class="text-h6">Delete</span>
         </v-col>
@@ -74,8 +80,11 @@ export default {
         AlbumDisplay
     },
   methods: {
+    goAdd() {
+      this.$router.push({ name: 'addAlbum' });
+    },
     goEdit(album) {
-      this.$router.push({ name: 'edit', params: { id: album.id } });
+      this.$router.push({ name: 'editAlbum', params: { id: album.id } });
     },
     goView(album) {
       this.$router.push({ name: 'view', params: { id: album.id } });

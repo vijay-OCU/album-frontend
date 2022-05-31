@@ -54,8 +54,8 @@ export default {
     updateAlbum() {
       var data = {
         title: this.album.title,
-        language: this.album.language
-
+        language: this.album.language,
+        genre: this.album.genre
       };
       AlbumDataService.update(this.id,data)
         .then(response => {
@@ -67,7 +67,7 @@ export default {
           this.message = e.response.data.message;
         });
     },
-      cancel(){
+    cancel(){
         this.$router.push({ name: 'albums' });
     }
   },

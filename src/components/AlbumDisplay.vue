@@ -1,14 +1,14 @@
 <template>
 <v-row>
-  <v-col  cols="9"
+  <v-col  cols="12"
         sm="2">
       <span >{{ album.title }}</span>
   </v-col>
-  <v-col  cols="3"
+  <v-col  cols="12"
         sm="2">
       <span> {{ album.language }}</span>
   </v-col>
-    <v-col  cols="3"
+  <v-col  cols="12"
         sm="2">
       <span> {{ album.genre }}</span>
   </v-col>

@@ -1,49 +1,61 @@
 import { createWebHistory, createRouter } from "vue-router";
 const routes =  [
   {
-    path: "/",
-    alias: "/tutorials",
-    name: "tutorials",
-    component: () => import("./views/TutorialsList.vue")
-  },
-  {
-    path: "/",
-    alias: "/albums",
+    path: "/albums",
+    alias: "/",
     name: "albums",
-    component: () => import("./views/AlbumsList.vue")
-  },
-  {
-    path: "/edit/:id",
-    name: "edit",
-    component: () => import("./views/EditTutorial.vue"),
+    component: () => import("./views/AlbumsList.vue"),
     props: true
   },
   {
-    path: "/add",
-    name: "add",
-    component: () => import("./views/AddTutorial.vue")
+    path: "/albums/:id/edit",
+    name: "editAlbum",
+    component: () => import("./views/EditAlbum.vue"),
+    props: true
   },
   {
-    path: "/view",
+    path: "/addAlbum",
+    name: "addAlbum",
+    component: () => import("./views/AddAlbum.vue")
+  },
+  {
+    path: "/albums/:id/tracks",
     name: "view",
-    component: () => import("./views/ViewTutorial.vue"),
+    component: () => import("./views/ViewAlbum.vue"),
     props: true
   },
   {
-    path: "/addLesson",
-    name: "addLesson",
-    component: () => import("./views/AddLesson.vue"),
+    path: "/albums/:albumId/addTrack",
+    name: "addTrack",
+    component: () => import("./views/AddTrack.vue"),
     props: true
   },
   {
-    path: "/editLesson",
-    name: "editLesson",
-    component: () => import("./views/EditLesson.vue"),
+    path: "/albums/:albumId/tracks/:trackId/editTrack/",
+    name: "editTrack",
+    component: () => import("./views/EditTrack.vue"),
+    props: true
+  },
+  {
+    path: "/artists",
+    name: "artists",
+    component: () => import("./views/ArtistsList.vue"),
+    props: true
+  },
+  {
+    path: "/addArtist",
+    name: "addArtist",
+    component: () => import("./views/AddArtist.vue")
+  },
+  {
+    path: "/artists/:id/edit",
+    name: "editArtist",
+    component: () => import("./views/EditArtist.vue"),
     props: true
   }
 ];
 const router = createRouter({
-  base: process.env.NODE_ENV === 'development' ? '/' : '/tutorial-frontend-1/',
+  base: process.env.NODE_ENV === 'development' ? '/' : '/album-frontend-1/',
   history: createWebHistory(process.env.BASE_URL),
   routes,
 });

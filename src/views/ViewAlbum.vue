@@ -1,11 +1,10 @@
 <template>
     <h2>Album View</h2>
     <h4>{{ message }}</h4>
-    <h3> {{track.title}}</h3>
-    <v-btn color="success" @click="goEditTrack()"
+    <h3> {{album.title}}</h3>
+    <v-btn color="success" @click="goEditAlbum()"
     >Edit</v-btn>
-    &nbsp;
-     <v-btn color="success" @click="goAddTrack(this.id)"
+     <v-btn color="success" @click="goAddTrack(id)"
     >Add Track</v-btn>
 
      <v-row>
@@ -14,13 +13,19 @@
             <span class="text-h6">Title</span>
         </v-col>
         <v-col  cols="8"
-              sm="4">
-            <span class="text-h6">Duration</span>
+              sm="2">
+            <span class="text-h6">Length</span>
         </v-col>
-        
-        
+        <v-col  cols="8"
+              sm="1">
+            <span class="text-h6">Edit</span>
+        </v-col>
+        <v-col  cols="8"
+              sm="1">
+            <span class="text-h6">Delete</span>
+        </v-col>
       </v-row>
-      <Track Display
+      <TrackDisplay
         v-for="track in tracks"
         :key="track.id"
         :track="track"
@@ -31,21 +36,21 @@
    
 </template>
 <script>
+
 import AlbumDataService from "../services/AlbumDataService";
 import TrackDataService from "../services/TrackDataService";
 import TrackDisplay from '@/components/TrackDisplay.vue';
-
 export default {
-  name: "view-track",
+  name: "view-album",
   props: ['id'],
-    components: {
+  components: {
         TrackDisplay
     },
   data() {
     return {
       album: {},
-      track : [],
-      message: "Add, Edit or Delete artists"
+      tracks : [],
+      message: "Add, Edit or Delete Tracks"
     };
   },
   methods: {
@@ -55,7 +60,7 @@ export default {
           this.album= response.data;
           TrackDataService.getAllTracks(this.id)
             .then(response=> {
-              this.artists = response.data})
+              this.tracks = response.data})
             .catch(e => {
                 this.message = e.response.data.message;
               });
@@ -64,13 +69,13 @@ export default {
           this.message = e.response.data.message;
         });
     },
-     goEditAlbum() {
-      this.$router.push({ name: 'edit', params: { id: this.id } });
+    goEditAlbum() {
+      this.$router.push({ name: 'editAlbum', params: { id: this.id } });
     },
     goEditTrack(track) {
-      this.$router.push({ name: 'editTrack', params: { artistId: this.id, artistId: track.id} });
+      this.$router.push({ name: 'editTrack', params: { albumId: this.id,trackId: track.id} });
     },
-    goAddTrack(albumId) {
+    goAddTrack() {
       this.$router.push({ name: 'addTrack', params: { albumId: this.id } });
     },
 

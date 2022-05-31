@@ -6,11 +6,11 @@
     <v-form>
        <v-text-field
             label="Title"
-            v-model="Track.title"
+            v-model="track.title"
         />
         <v-text-field
-            label="Duration"
-            v-model="Track.duration"
+            label="Length"
+            v-model="track.length"
         />
         <v-row justify="center">
             <v-col col="2"> </v-col>
@@ -29,11 +29,11 @@
 <script>
 import TrackDataService from "../services/TrackDataService";
 export default {
-  name: "edit-Track",
+  name: "edit-track",
   props: {albumId : String,trackId:String},
   data() {
     return {
-      Track: Object,
+      track: Object,
       message: "Enter data and click save"
     };
   },
@@ -41,7 +41,7 @@ export default {
     retrieveTrack() {
       TrackDataService.getTrack(this.albumId,this.trackId)
         .then(response => {
-          this.Track= response.data;
+          this.track= response.data;
         })
         .catch(e => {
           this.message = e.response.data.message;
@@ -50,22 +50,21 @@ export default {
     },
     saveTrack() {
       var data = {
-        title: this.Track.title,
-        duration: this.Track.duration,
-        albumId : this.Track.albumId
+        title: this.track.title,
+        length: this.track.length,
+        albumId : this.albumId
       };
-      TrackDataService.updateLesson(this.Track.albumId,this.Track.id, data)
+      TrackDataService.updateTrack(this.albumId,this.track.id, data)
         .then(response => {
-          this.Track.id = response.data.id;
-        
-         this.$router.push({ name: 'view' , params: { id: this.Track.albumId }} );
+          this.track.id = response.data.id;       
+          this.$router.push({ name: 'view' , params: { id: this.albumId }} );
         })
         .catch(e => {
           this.message = e.response.data.message;
         });
     },
     cancel(){
-        this.$router.push({ name: 'view' , params: { id: this.Track.albumId }} );
+        this.$router.push({ name: 'view' , params: { id: this.albumId }} );
     }
   },
     mounted() {
