@@ -1,18 +1,18 @@
-import axios from "axios";
+import axios from 'axios';
 
-var baseurl = "";
-if (process.env.NODE_ENV === "development") {
-  baseurl = "http://localhost/api/";
+var baseurl = '';
+if (process.env.NODE_ENV === 'development') {
+  baseurl = 'http://localhost:3000/api/';
 } else {
-  baseurl = "/api/";
+  baseurl = '/api/';
 }
- 
+
 export default axios.create({
   baseURL: baseurl,
   headers: {
-    Accept: "application/json",
-    "Content-Type": "application/json",
-    "X-Requested-With": "XMLHttpRequest",
-    crossDomain: true
-  }
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+    'X-Requested-With': 'XMLHttpRequest',
+    crossDomain: true,
+  },
 });
