@@ -31,12 +31,12 @@
 <script>
 import AlbumDataService from "../services/AlbumDataService";
 export default {
-  name: "edit-album",
+  name: "edit album",
   props: ['id'],
   data() {
     return {
       album: {},
-      message: "Enter data and click save"
+      message: "Enter data and click Save"
     };
   },
   methods: {
@@ -75,8 +75,9 @@ export default {
     this.retrieveAlbum();
   }
 }
-
 </script>
+
+
 <style>
 
 </style>
