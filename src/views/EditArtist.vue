@@ -31,12 +31,12 @@
 <script>
 import ArtistDataService from "../services/ArtistDataService";
 export default {
-  name: "edit-artist",
+  name: "edit artist",
   props: ['id'],
   data() {
     return {
       artist: {},
-      message: "Enter data and click save"
+      message: "Enter data and click Save"
     };
   },
   methods: {
@@ -48,9 +48,7 @@ export default {
         .catch(e => {
           this.message = e.response.data.message;
         });
-
     },
-
     updateArtist() {
       var data = {
         name: this.artist.name,
@@ -77,6 +75,7 @@ export default {
 }
 
 </script>
-<style>
 
+
+<style>
 </style>
