@@ -1,5 +1,5 @@
 <template>
-  <h1>Album List ( {{ this.artistName || '' }} )</h1>
+  <h1>Albums List  {{this.artistName === undefined ? '': ' for '+ this.artistName }} </h1>
   <h4>{{ message }}</h4>
   <v-row>
     <v-col cols="12" sm="2">

@@ -24,7 +24,7 @@
         size="x-small"
         icon="mdi-trash-can"
         @click="deleteArtist"
-        :disabled="artist.disabled"
+        :disabled="artist.albums.length > 0 ? true : false"
       />
     </v-col>
   </v-row>

@@ -22,7 +22,8 @@
   </v-col>
   <v-col  cols="9"
         sm="1">
-      <v-btn size="x-small" icon="mdi-trash-can" @click="deleteAlbum"/>
+      <v-btn size="x-small" icon="mdi-trash-can" @click="deleteAlbum"
+      :disabled="album.tracks.length > 0 ? true : false"/>
   </v-col>
 </v-row>
 </template>
@@ -33,9 +34,7 @@ export default {
     album: Object
   },
   data() {
-    return {
-      
-    };
+    return {};
   },
   methods: {
 
