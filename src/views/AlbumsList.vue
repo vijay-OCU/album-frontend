@@ -81,7 +81,7 @@ export default {
         });
     },
     retrieveAlbums() {
-      if (window.location.pathname === '/albums') {
+      if (window.location.pathname === '/albums'|| window.location.pathname === '/') {
         AlbumDataService.getAll()
           .then((response) => {
             this.albums = response.data;
