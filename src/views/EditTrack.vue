@@ -34,7 +34,7 @@ export default {
   data() {
     return {
       track: Object,
-      message: "Enter data and click save"
+      message: "Enter data and click Save"
     };
   },
   methods: {
@@ -46,7 +46,6 @@ export default {
         .catch(e => {
           this.message = e.response.data.message;
         });
-
     },
     saveTrack() {
       var data = {
@@ -71,8 +70,7 @@ export default {
       this.retrieveTrack();
   }
 }
-
 </script>
-<style>
 
+<style>
 </style>
