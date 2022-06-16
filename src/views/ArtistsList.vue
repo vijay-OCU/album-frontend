@@ -84,14 +84,15 @@ export default {
           this.message = e.response.data.message;
         });
     },
-    async retrieveArtists() {
-      let artistsData = await ArtistDataService.getAll();
-
-      let options = artistsData.data;
-
-      this.artists = options;
-
-      console.log(this.artists);
+    retrieveArtists() {
+      ArtistDataService.getAll()
+        .then(response => {
+          this.artists = response.data;
+          
+        })
+        .catch(e => {
+          this.message = e.response.data.message;
+        });
     },
     refreshList() {
       this.retrieveArtists();
@@ -122,13 +123,6 @@ export default {
         .catch((e) => {
           this.message = e.response.data.message;
         });
-    },
-    disableArtistAlbum() {
-      const mapArtist = this.AlbumDataService.getAll().response.data;
-      const mapAlbum = ArtistDataService.getAll().response.data;
-      if (mapAlbum && mapArtist == !null) {
-        this.mapArtist.get('artistId') == this.mapAlbum.get('id');
-      }
     },
   },
   mounted() {
