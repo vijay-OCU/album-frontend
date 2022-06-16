@@ -1,84 +1,66 @@
 <template>
+  <h1>Albums List  {{this.artistName === undefined ? '': ' for '+ this.artistName }} </h1>
+  <h4>{{ message }}</h4>
+  <v-row>
+    <v-col cols="12" sm="2">
+      <v-btn color="success" @click="goAdd"> Add </v-btn>
+    </v-col>
+    <v-col col="12" sm="8">
+      <v-text-field density="compact" clearable v-model="title" />
+    </v-col>
+    <v-col cols="12" sm="1">
+      <v-btn color="success" @click="searchTitle"> Search </v-btn>
+    </v-col>
+  </v-row>
+  <v-row>
+    <v-col cols="12" sm="2">
+      <span class="text-h6">Title</span>
+    </v-col>
+    <v-col cols="12" sm="2">
+      <span class="text-h6">Language</span>
+    </v-col>
+    <v-col cols="12" sm="2">
+      <span class="text-h6">Genre</span>
+    </v-col>
+    <v-col cols="12" sm="1">
+      <span class="text-h6">Edit</span>
+    </v-col>
+    <v-col cols="12" sm="1">
+      <span class="text-h6">View</span>
+    </v-col>
+    <v-col cols="12" sm="1">
+      <span class="text-h6">Delete</span>
+    </v-col>
+  </v-row>
+  <AlbumDisplay
+    v-for="album in albums"
+    :key="album.id"
+    :album="album"
+    @deleteAlbum="goDelete(album)"
+    @updateAlbum="goEdit(album)"
+    @viewAlbum="goView(album)"
+  />
 
-    <h1>Album List</h1>
-    <h4>{{ message }}</h4>
-  
-      <v-row >
-        <v-col  cols="12" sm="2">
-          <v-btn color = "success"
-            @click="goAdd"
-          >
-            Add
-          </v-btn>
-        </v-col>   
-        <v-col col="12" sm="8">
-            <v-text-field density="compact" clearable
-              v-model="title"/>
-        </v-col> 
-        <v-col  cols="12" sm="1">
-          <v-btn color = "success"
-            @click="searchTitle"
-          >
-            Search
-          </v-btn>
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col  cols="12"
-              sm="2">
-            <span class="text-h6">Title</span>
-        </v-col>
-        <v-col  cols="12"
-              sm="2">
-            <span class="text-h6">Language</span>
-        </v-col>
-        <v-col  cols="12"
-              sm="2">
-            <span class="text-h6">Genre</span>
-        </v-col>
-        <v-col  cols="12"
-              sm="1">
-            <span class="text-h6">Edit</span>
-        </v-col>
-        <v-col  cols="12"
-              sm="1">
-            <span class="text-h6">View</span>
-        </v-col>
-        <v-col  cols="12"
-              sm="1">
-            <span class="text-h6">Delete</span>
-        </v-col>
-      </v-row>
-      <AlbumDisplay
-        v-for="album in albums"
-        :key="album.id"
-        :album="album"
-        @deleteAlbum="goDelete(album)"
-        @updateAlbum="goEdit(album)"
-        @viewAlbum="goView(album)"
-    />
- 
-  <v-btn  @click="removeAllAlbums">
-    Remove All
-  </v-btn>
+  <v-btn @click="removeAllAlbums"> Remove All </v-btn>
 </template>
 <script>
-import AlbumDataService from "../services/AlbumDataService";
+import AlbumDataService from '../services/AlbumDataService';
 import AlbumDisplay from '@/components/AlbumDisplay.vue';
 export default {
-  name: "albums-list",
+  name: 'albums-list',
+  props: ['artistName', 'artistId'],
   data() {
     return {
       albums: [],
       currentAlbum: null,
       currentIndex: -1,
-      title: "",
-      message : "Search, Edit or Delete Albums"
+      title: '',
+      message: 'Search, Edit or Delete Albums',
     };
   },
   components: {
-        AlbumDisplay
-    },
+    AlbumDisplay,
+  },
   methods: {
     goAdd() {
       this.$router.push({ name: 'addAlbum' });
@@ -91,23 +73,31 @@ export default {
     },
     goDelete(album) {
       AlbumDataService.delete(album.id)
-        .then( () => {
-    
-          this.retrieveAlbums()
+        .then(() => {
+          this.retrieveAlbums();
         })
-        .catch(e => {
+        .catch((e) => {
           this.message = e.response.data.message;
         });
     },
     retrieveAlbums() {
-      AlbumDataService.getAll()
-        .then(response => {
-          this.albums = response.data;
-          
-        })
-        .catch(e => {
-          this.message = e.response.data.message;
-        });
+      if (window.location.pathname === '/album-frontend/albums'|| window.location.pathname === '/album-frontend/') {
+        AlbumDataService.getAll()
+          .then((response) => {
+            this.albums = response.data;
+          })
+          .catch((e) => {
+            this.message = e.response.data.message;
+          });
+      } else {
+        AlbumDataService.findByArtist(this.artistId)
+          .then((response) => {
+            this.albums = response.data;
+          })
+          .catch((e) => {
+            this.message = e.response.data.message;
+          });
+      }
     },
     refreshList() {
       this.retrieveAlbums();
@@ -120,32 +110,34 @@ export default {
     },
     removeAllAlbums() {
       AlbumDataService.deleteAll()
-        .then(response => {
+        .then((response) => {
           console.log(response.data);
           this.refreshList();
         })
-        .catch(e => {
+        .catch((e) => {
           this.message = e.response.data.message;
         });
     },
-    
+
     searchTitle() {
       AlbumDataService.findByTitle(this.title)
-        .then(response => {
+        .then((response) => {
           this.albums = response.data;
           this.setActiveAlbum(null);
-          
         })
-        .catch(e => {
+        .catch((e) => {
           this.message = e.response.data.message;
         });
-    }
+    },
   },
   mounted() {
     this.retrieveAlbums();
-  }
+  },
+  watch: {
+    $route() {
+      this.retrieveAlbums();
+    },
+  },
 };
 </script>
-<style>
-
-</style>
+<style></style>

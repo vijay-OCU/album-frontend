@@ -1,80 +1,67 @@
 <template>
+  <h1>Artist List</h1>
+  <h4>{{ message }}</h4>
 
-    <h1>Artist List</h1>
-    <h4>{{ message }}</h4>
-  
-      <v-row >
-        <v-col  cols="12" sm="2">
-          <v-btn color = "success"
-            @click="goAdd"
-          >
-            Add
-          </v-btn>
-        </v-col>   
-        <v-col col="12" sm="8">
-            <v-text-field density="compact" clearable
-              v-model="title"/>
-        </v-col> 
-        <v-col  cols="12" sm="1">
-          <v-btn color = "success"
-            @click="searchName"
-          >
-            Search
-          </v-btn>
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col  cols="12"
-              sm="2">
-            <span class="text-h6">Name</span>
-        </v-col>
-        <v-col  cols="12"
-              sm="2">
-            <span class="text-h6">Gender</span>
-        </v-col>
-        <v-col  cols="12"
-              sm="2">
-            <span class="text-h6">Location</span>
-        </v-col>
-        <v-col  cols="12"
-              sm="1">
-            <span class="text-h6">Edit</span>
-        </v-col>
-        <v-col  cols="12"
-              sm="1">
-            <span class="text-h6">Delete</span>
-        </v-col>
-      </v-row>
-      <ArtistDisplay
-        v-for="artist in artists"
-        :key="artist.id"
-        :artist="artist"
-        @deleteArtist="goDelete(artist)"
-        @updateArtist="goEdit(artist)"
-    />
- 
-  <v-btn  @click="removeAllArtists">
-    Remove All
-  </v-btn>
+  <v-row>
+    <v-col cols="12" sm="2">
+      <v-btn color="success" @click="goAdd"> Add </v-btn>
+    </v-col>
+    <v-col col="12" sm="8">
+      <v-text-field density="compact" clearable v-model="title" />
+    </v-col>
+    <v-col cols="12" sm="1">
+      <v-btn color="success" @click="searchName"> Search </v-btn>
+    </v-col>
+  </v-row>
+  <v-row>
+    <v-col cols="12" sm="2">
+      <span class="text-h6">Name</span>
+    </v-col>
+    <v-col cols="12" sm="2">
+      <span class="text-h6">Gender</span>
+    </v-col>
+    <v-col cols="12" sm="2">
+      <span class="text-h6">Location</span>
+    </v-col>
+    <v-col cols="12" sm="1">
+      <span class="text-h6">Edit</span>
+    </v-col>
+    <v-col cols="12" sm="1">
+      <span class="text-h6">View</span>
+    </v-col>
+    <v-col cols="12" sm="1">
+      <span class="text-h6">Delete</span>
+    </v-col>
+  </v-row>
+  <ArtistDisplay
+    v-for="artist in artists"
+    :key="artist.id"
+    :artist="artist"
+    @deleteArtist="goDelete(artist)"
+    @updateArtist="goEdit(artist)"
+    @viewArtist="goView(artist)"
+  />
+
+  <v-btn @click="removeAllArtists"> Remove All </v-btn>
 </template>
 <script>
-import ArtistDataService from "../services/ArtistDataService";
+import ArtistDataService from '../services/ArtistDataService';
 import ArtistDisplay from '@/components/ArtistDisplay.vue';
-import AlbumDataService from "../services/AlbumDataService";
+
 export default {
-  name: "artists-list",
+  name: 'artists-list',
   data() {
     return {
       artists: [],
       currentArtist: null,
       currentIndex: -1,
-      title: "",
-      message : "Search, Edit or Delete Artists"
+      title: '',
+      message: 'Search, Edit or Delete Artists',
     };
   },
   components: {
-        ArtistDisplay
-    },
+    ArtistDisplay,
+  },
   methods: {
     goAdd() {
       this.$router.push({ name: 'addArtist' });
@@ -82,12 +69,18 @@ export default {
     goEdit(artist) {
       this.$router.push({ name: 'editArtist', params: { id: artist.id } });
     },
+    goView(artist) {
+      this.$router.push({
+        name: 'viewArtist',
+        params: { artistName: artist.name, artistId: artist.id },
+      });
+    },
     goDelete(artist) {
-         ArtistDataService.delete(artist.id)
-        .then(response => {    
-          this.retrieveArtists()
+      ArtistDataService.delete(artist.id)
+        .then(() => {
+          this.retrieveArtists();
         })
-        .catch(e => {
+        .catch((e) => {
           this.message = e.response.data.message;
         });
     },
@@ -112,41 +105,29 @@ export default {
     },
     removeAllArtists() {
       ArtistDataService.deleteAll()
-        .then(response => {
+        .then((response) => {
           console.log(response.data);
           this.refreshList();
         })
-        .catch(e => {
+        .catch((e) => {
           this.message = e.response.data.message;
         });
     },
-    
+
     searchName() {
       ArtistDataService.findByName(this.title)
-        .then(response => {
+        .then((response) => {
           this.artists = response.data;
           this.setActiveArtist(null);
-          
         })
-        .catch(e => {
+        .catch((e) => {
           this.message = e.response.data.message;
         });
     },
-    disableArtistAlbum() {
-      const mapArtist = this.AlbumDataService.getAll().response.data;
-      const mapAlbum = ArtistDataService.getAll().response.data;
-      if(mapAlbum && mapArtist == !null){
-        this.mapArtist.get('artistId')==this.mapAlbum.get('id');
-      }
-    }
   },
   mounted() {
     this.retrieveArtists();
-  }
-
-
+  },
 };
 </script>
-<style>
-
-</style>
+<style></style>
